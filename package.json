@@ -1,0 +1,22 @@
+{
+  "name": "mainstack-vincent-abolarin",
+  "version": "1.0.0",
+  "description": "Mainstack - Vincent Abolarin",
+  "main": "index.ts",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vincentabolarin/mainstack-vincent-abolarin.git"
+  },
+  "keywords": [
+    "Mainstack"
+  ],
+  "author": "Vincent Abolarin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vincentabolarin/mainstack-vincent-abolarin/issues"
+  },
+  "homepage": "https://github.com/vincentabolarin/mainstack-vincent-abolarin#readme"
+}
