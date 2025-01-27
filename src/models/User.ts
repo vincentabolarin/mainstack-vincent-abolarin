@@ -21,4 +21,12 @@ const UserSchema: Schema = new Schema(
   { timestamps: true }
 );
 
+UserSchema.path('email').validate(async function(value) {
+  const existingUser = await mongoose.models.User.findOne({ email: value });
+  if (existingUser) {
+    throw new Error('Email already registered');
+  }
+}, 'Email is already taken');
+
+
 export default mongoose.model<IUser>("User", UserSchema);

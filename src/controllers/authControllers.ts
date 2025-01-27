@@ -6,6 +6,13 @@ import User from "../models/User.js";
 const registerController = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
+  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+  if (typeof email !== "string" || !emailRegex.test(email)) {
+    res.status(400).send('Invalid email format');
+    return;
+  }
+
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({ email, password: hashedPassword });
