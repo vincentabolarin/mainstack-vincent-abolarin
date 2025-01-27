@@ -1,5 +1,8 @@
 import mongoose, { Schema, Document } from "mongoose";
 
+// Regular expression for validating email format
+const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
 export interface IUser extends Document {
   email: string;
   password: string;
@@ -7,7 +10,12 @@ export interface IUser extends Document {
 
 const UserSchema: Schema = new Schema(
   {
-    email: { type: String, required: true, unique: true },
+    email: { 
+      type: String, 
+      required: true, 
+      unique: true,
+      match: [emailRegex, 'Please enter a valid email address'],
+    },
     password: { type: String, required: true },
   },
   { timestamps: true }
