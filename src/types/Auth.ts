@@ -6,3 +6,7 @@ export interface RegisterUserData {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface LoginData {
+  token: any;
+}
