@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import { ServiceResponse } from "../types/ServiceResponse.js";
-import { LoginData, RegisterUserData } from "../types/Auth.js";
+import { LoginResponseData, UserData } from "../types/Auth.js";
 import { ErrorResponse, SuccessResponse } from "../utils/response.js";
 
 const registerUserService = async (
@@ -10,7 +10,7 @@ const registerUserService = async (
   lastName: string,
   email: string,
   password: string
-): Promise<ServiceResponse<RegisterUserData>> => {
+): Promise<ServiceResponse<UserData>> => {
   const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
   // Validate email format
@@ -47,7 +47,7 @@ const registerUserService = async (
   }
 };
 
-const loginService = async (email: string, password: string): Promise<ServiceResponse<LoginData>> => {
+const loginService = async (email: string, password: string): Promise<ServiceResponse<LoginResponseData>> => {
   try {
       const user = await User.findOne({ email });
       const isPasswordValid = await bcrypt.compare(password, user.password);

@@ -1,4 +1,4 @@
-export interface RegisterUserData {
+export interface UserData {
   id: string;
   firstName: string;
   lastName: string;
@@ -7,6 +7,8 @@ export interface RegisterUserData {
   updatedAt: Date;
 }
 
-export interface LoginData {
-  token: any;
+export interface LoginResponseData {
+  token: string;
+  expiresAt: Date;
+  user: UserData;
 }
