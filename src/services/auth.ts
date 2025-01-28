@@ -79,7 +79,7 @@ const loginService = async (email: string, password: string): Promise<ServiceRes
   
       return new SuccessResponse("Successfully logged in", data);
     } catch (error: any) {
-      return new ErrorResponse("Error logging in");
+      return new ErrorResponse("Error logging in", error.message);
     }
 }
 
