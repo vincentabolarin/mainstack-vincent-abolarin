@@ -2,8 +2,8 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth.js';
-// import productRoutes from './routes/productRoutes';
-// import { authenticate } from './middlewares/authMiddleware';
+import productRoutes from './routes/product.js';
+import { authenticate } from './middlewares/auth.js';
 
 dotenv.config();
 
@@ -16,7 +16,7 @@ app.use(express.json());
 
 // Routes
 app.use('/auth', authRoutes);
-// app.use('/products', authenticate, productRoutes);
+app.use('/products', authenticate, productRoutes);
 
 // Database connection
 mongoose
