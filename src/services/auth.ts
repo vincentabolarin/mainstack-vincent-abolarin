@@ -1,7 +1,8 @@
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import { ServiceResponse } from "../types/ServiceResponse.js";
-import { RegisterUserData } from "../types/Auth.js";
+import { LoginResponseData, UserData } from "../types/Auth.js";
 import { ErrorResponse, SuccessResponse } from "../utils/response.js";
 
 const registerUserService = async (
@@ -9,7 +10,7 @@ const registerUserService = async (
   lastName: string,
   email: string,
   password: string
-): Promise<ServiceResponse<RegisterUserData>> => {
+): Promise<ServiceResponse<UserData>> => {
   const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
   // Validate email format
@@ -37,7 +38,7 @@ const registerUserService = async (
       lastName: user.lastName,
       email: user.email,
       createdAt: user.createdAt,
-      updateAt: user.updatedAt
+      updatedAt: user.updatedAt
     };
 
     return new SuccessResponse("User registered successfully", data)
@@ -46,4 +47,40 @@ const registerUserService = async (
   }
 };
 
-export { registerUserService };
+const loginService = async (email: string, password: string): Promise<ServiceResponse<LoginResponseData>> => {
+  try {
+      const user = await User.findOne({ email });
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+  
+      if (!user || !isPasswordValid) {
+        return new ErrorResponse("Invalid credentials");
+      }
+      
+    const expiresIn = 60 * 60; // 1 hour
+  
+    const token = jwt.sign(
+      { id: user._id },
+      process.env.JWT_SECRET!,
+      { expiresIn }
+    );
+    
+    const expiresAt = new Date(Date.now() + expiresIn * 1000).toISOString();
+    
+    const data = {
+      token,
+      expiresAt,
+      user: {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email
+      }
+    }
+  
+      return new SuccessResponse("Successfully logged in", data);
+    } catch (error: any) {
+      return new ErrorResponse("Error logging in");
+    }
+}
+
+export { registerUserService, loginService };
