@@ -2,26 +2,26 @@ import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
+import { registerUserService } from "../services/auth.js";
 
 const registerController = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  const { firstName, lastName, email, password } = req.body;
 
-  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+  const result = await registerUserService(firstName, lastName, email, password);
 
-  if (typeof email !== "string" || !emailRegex.test(email)) {
-    res.status(400).send('Invalid email format');
-    return;
-  }
-
-  try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ email, password: hashedPassword });
-
-    await user.save();
-
-    res.status(201).json({ message: "User registered successfully" });
-  } catch (err) {
-    res.status(500).json({ error: "Error registering user" });
+  if (!result.success) {
+    switch (result.message) {
+      case "Invalid email format":
+        res.status(400).json(result);
+        break;
+      case "Email already exists":
+        res.status(409).json(result);
+      default:
+        res.status(500).json(result);
+        break;
+    }
+  } else {
+    res.status(201).json(result);
   }
 };
 
