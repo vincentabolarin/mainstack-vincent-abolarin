@@ -5,8 +5,9 @@
   "main": "index.ts",
   "scripts": {
     "test": "jest",
+    "dev": "tsc && nodemon -r ts-node/register dist/index.js",
     "build": "tsc",
-    "start": "nodemon -r ts-node/register dist/index.js"
+    "start": "tsc && node dist/index.js"
   },
   "repository": {
     "type": "git",
