@@ -12,8 +12,11 @@ const registerController = async (req: Request, res: Response) => {
       case "Invalid email format":
         res.status(400).json(result);
         break;
+      
       case "Email already exists":
         res.status(409).json(result);
+        break;
+      
       default:
         res.status(500).json(result);
         break;
@@ -32,6 +35,8 @@ const loginController = async (req: Request, res: Response) => {
     switch (result.message) {
       case "Invalid credentials":
         res.status(401).json(result);
+        break;
+      
       default:
         res.status(500).json(result);
         break;
