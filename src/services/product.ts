@@ -7,15 +7,7 @@ const createProductService = async (name: string, description: string, price: nu
     const product = new Product({ name, description, price, category });
     await product.save();
 
-    const data = {
-      id: product.id,
-      name: product.name,
-      description: product.description,
-      price: product.price,
-      category: product.category
-    }
-
-    return new SuccessResponse("Product created successfully", data);
+    return new SuccessResponse("Product created successfully", product);
   } catch (error: any) {
     return new ErrorResponse("Error creating product", error.message);
   }
