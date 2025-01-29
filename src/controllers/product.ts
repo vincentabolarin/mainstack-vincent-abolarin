@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 
-import { createProductService, getAllProductsService, getProductByIdService, updateProductService } from "../services/product.js";
+import { createProductService, deleteProductService, getAllProductsService, getProductByIdService, updateProductService } from "../services/product.js";
 
+// Create a product
 const createProductController = async (req: Request, res: Response) => {
   const { name, description, price, category } = req.body;
 
@@ -14,6 +15,7 @@ const createProductController = async (req: Request, res: Response) => {
   }
 };
 
+// Get all products
 const getAllProductsController = async (req: Request, res: Response) => {
   const result = await getAllProductsService();
 
@@ -24,6 +26,7 @@ const getAllProductsController = async (req: Request, res: Response) => {
   }
 };
 
+// Get a product by ID
 const getProductByIdController = async (req: Request, res: Response) => {
   const productId = req.params.id;
 
@@ -44,6 +47,7 @@ const getProductByIdController = async (req: Request, res: Response) => {
   }
 }
 
+// Update a product
 const updateProductController = async (req: Request, res: Response) => {
   const productId = req.params.id;
   
@@ -66,9 +70,32 @@ const updateProductController = async (req: Request, res: Response) => {
   }
 }
 
+// Delete a product
+const deleteProductController = async (req: Request, res: Response) => {
+  const productId = req.params.id;
+
+  const result = await deleteProductService(productId);
+
+  if (!result.success) {
+    switch (result.message) {
+      case "Product not found":
+        res.status(404).json(result);
+        break;
+
+      default:
+        res.status(500).json(result);
+        break;
+    }
+  } else {
+    res.status(201).json(result);
+  }
+}
+
+// Export all product controllers
 export {
   createProductController,
   getAllProductsController,
   getProductByIdController,
   updateProductController,
+  deleteProductController
 };

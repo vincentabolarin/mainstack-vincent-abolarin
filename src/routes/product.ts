@@ -1,6 +1,6 @@
 import express from "express";
 import { authenticate } from "../middlewares/auth.js";
-import { createProductController, getAllProductsController, getProductByIdController, updateProductController } from "../controllers/product.js";
+import { createProductController, deleteProductController, getAllProductsController, getProductByIdController, updateProductController } from "../controllers/product.js";
 
 const router = express.Router();
 
@@ -15,5 +15,8 @@ router.get('/:id', authenticate, getProductByIdController);
 
 // Update a product
 router.put('/:id', authenticate, updateProductController);
+
+// Delete a product
+router.delete('/:id', authenticate, deleteProductController);
 
 export default router;
