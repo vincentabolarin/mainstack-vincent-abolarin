@@ -40,7 +40,21 @@ const getAllProductsService = async () => {
   }
 }
 
+const getProductByIdService = async (id: string) => {
+    try {
+      const product = await Product.findById(id);
+      if (!product) {
+        return new ErrorResponse("Product not found");
+      }
+
+      return new SuccessResponse("Product details fetched successfully", product);
+    } catch (error: any) {
+      return new ErrorResponse("Error fetching product details", error.message);
+    }
+}
+
 export {
   createProductService,
-  getAllProductsService
+  getAllProductsService,
+  getProductByIdService
 }
