@@ -21,14 +21,14 @@ const createProductService = async (name: string, description: string, price: nu
   }
 }
 
-const getAllProductsService = async () => {
+const getAllProductsService = async (): Promise<ServiceResponse<any>> => {
   try {
     const products = await Product.find();
 
     const data = {
       count: products.length,
-      products
-    }
+      products,
+    };
 
     if (products.length === 0) {
       return new SuccessResponse("No product found", data);
@@ -38,23 +38,49 @@ const getAllProductsService = async () => {
   } catch (error: any) {
     return new ErrorResponse("Error fetching products", error.message);
   }
-}
+};
 
-const getProductByIdService = async (id: string) => {
-    try {
-      const product = await Product.findById(id);
-      if (!product) {
-        return new ErrorResponse("Product not found");
-      }
+const getProductByIdService = async (
+  id: string
+): Promise<ServiceResponse<any>> => {
+  try {
+    const product = await Product.findById(id);
 
-      return new SuccessResponse("Product details fetched successfully", product);
-    } catch (error: any) {
-      return new ErrorResponse("Error fetching product details", error.message);
+    if (!product) {
+      return new ErrorResponse("Product not found");
     }
-}
+
+    return new SuccessResponse("Product details fetched successfully", product);
+  } catch (error: any) {
+    return new ErrorResponse("Error fetching product details", error.message);
+  }
+};
+
+const updateProductService = async (
+  id: string,
+  name: string,
+  description: string,
+  price: number,
+  category: string
+): Promise<ServiceResponse<any>> => {
+  try {
+    const product = await Product.findByIdAndUpdate(id, { name, description, price, category }, {
+      new: true,
+    });
+
+    if (!product) {
+      return new ErrorResponse("Product not found");
+    }
+
+    return new SuccessResponse("Product updated successfully", product);
+  } catch (error: any) {
+    return new ErrorResponse("Error updating product", error.message);
+  }
+};
 
 export {
   createProductService,
   getAllProductsService,
-  getProductByIdService
+  getProductByIdService,
+  updateProductService
 }
