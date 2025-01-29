@@ -1,10 +1,13 @@
 import express from "express";
 import { authenticate } from "../middlewares/auth.js";
-import { createProductController } from "../controllers/product.js";
+import { createProductController, getAllProductsController } from "../controllers/product.js";
 
 const router = express.Router();
 
 // Create a product
 router.post("/", authenticate, createProductController);
+
+// Get all products
+router.get("/", authenticate, getAllProductsController);
 
 export default router;

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import { createProductService } from "../services/product.js";
+import { createProductService, getAllProductsService } from "../services/product.js";
 
 const createProductController = async (req: Request, res: Response) => {
   const { name, description, price, category } = req.body;
@@ -14,4 +14,17 @@ const createProductController = async (req: Request, res: Response) => {
   }
 };
 
-export { createProductController };
+const getAllProductsController = async (req: Request, res: Response) => {
+  const result = await getAllProductsService();
+
+  if (!result.success) {
+    res.status(500).json(result);
+  } else {
+    res.status(200).json(result);
+  }
+};
+
+export {
+  createProductController,
+  getAllProductsController
+};

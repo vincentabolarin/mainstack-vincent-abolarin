@@ -21,6 +21,26 @@ const createProductService = async (name: string, description: string, price: nu
   }
 }
 
+const getAllProductsService = async () => {
+  try {
+    const products = await Product.find();
+
+    const data = {
+      count: products.length,
+      products
+    }
+
+    if (products.length === 0) {
+      return new SuccessResponse("No product found", data);
+    }
+
+    return new SuccessResponse("Products fetched successfully", data);
+  } catch (error: any) {
+    return new ErrorResponse("Error fetching products", error.message);
+  }
+}
+
 export {
-  createProductService
+  createProductService,
+  getAllProductsService
 }
