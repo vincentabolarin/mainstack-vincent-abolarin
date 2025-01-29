@@ -3,7 +3,7 @@ import mongoose, { Schema, Document } from "mongoose";
 // Regular expression for validating email format
 const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
-export interface IUser extends Document {
+export interface User extends Document {
   firstName: string;
   lastName: string;
   email: string;
@@ -35,4 +35,4 @@ UserSchema.path('email').validate(async function(value) {
 }, 'Email already exists');
 
 
-export default mongoose.model<IUser>("User", UserSchema);
+export default mongoose.model<User>("User", UserSchema);
