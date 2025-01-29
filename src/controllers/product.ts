@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import { createProductService, getAllProductsService } from "../services/product.js";
+import { createProductService, getAllProductsService, getProductByIdService } from "../services/product.js";
 
 const createProductController = async (req: Request, res: Response) => {
   const { name, description, price, category } = req.body;
@@ -24,7 +24,28 @@ const getAllProductsController = async (req: Request, res: Response) => {
   }
 };
 
+const getProductByIdController = async (req: Request, res: Response) => {
+  const productId = req.params.id
+
+  const result = await getProductByIdService(productId);
+
+  if (!result.success) {
+    switch (result.message) {
+      case "Product not found":
+        res.status(404).json(result);
+        break;
+
+      default:
+        res.status(500).json(result);
+        break;
+    }
+  } else {
+    res.status(200).json(result);
+  }
+}
+
 export {
   createProductController,
-  getAllProductsController
+  getAllProductsController,
+  getProductByIdController
 };
