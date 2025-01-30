@@ -32,16 +32,7 @@ const registerUserService = async (
     const user = new User({ firstName, lastName, email, password: hashedPassword });
     await user.save();
 
-    const data = {
-      id: user._id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt
-    };
-
-    return new SuccessResponse("User registered successfully", data)
+    return new SuccessResponse("User registered successfully", user)
   } catch (error: any) {
     return new ErrorResponse("Error registering user", error.message);
   }
