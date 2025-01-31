@@ -11,4 +11,5 @@ export default {
   testPathIgnorePatterns: ["/node_modules/", "/dist/"],
   testMatch: ["**/src/**/*.test.ts"],
   testTimeout: 10000,
+  maxWorkers: 1
 };

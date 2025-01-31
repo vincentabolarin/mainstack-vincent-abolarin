@@ -1,9 +1,19 @@
 const request = require("supertest");
-import app from "../index.js";
+import { startServer } from "../index.js";
+
+let server;
+
+beforeAll(async () => {
+  server = startServer();
+});
+
+afterAll(async () => {
+  server.close();
+});
 
 describe("Authentication API", () => {
   it("should register a new user or show appropriate error", async () => {
-    const res = await request(app).post("/auth/register").send({
+    const res = await request(server).post("/auth/register").send({
       firstName: "Test",
       lastName: "User",
       email: "testuser@example.com",
@@ -30,7 +40,7 @@ describe("Authentication API", () => {
   });
 
   it("should login a user and return a token or show appropriate error", async () => {
-    const res = await request(app).post("/auth/login").send({
+    const res = await request(server).post("/auth/login").send({
       email: "testuser@example.com",
       password: "password123",
     });

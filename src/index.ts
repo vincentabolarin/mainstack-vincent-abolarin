@@ -8,7 +8,7 @@ import { authenticate } from "./middlewares/auth.js";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8000;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/products_db';
 
 // Middleware
@@ -30,9 +30,14 @@ mongoose
     }
   });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+export function startServer() {
+  return app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+if (process.env.NODE_ENV !== "test") {
+  startServer();
+}
 
 export default app;
