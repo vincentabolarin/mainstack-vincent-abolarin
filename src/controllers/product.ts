@@ -17,7 +17,7 @@ const createProductController = async (req: Request, res: Response) => {
   if (!result.success) {
     res.status(500).json(result);
   } else {
-    res.status(201).json(result);
+    res.status(200).json(result);
   }
 };
 
@@ -93,7 +93,7 @@ const deleteProductController = async (req: Request, res: Response) => {
         break;
     }
   } else {
-    res.status(201).json(result);
+    res.status(204).json(result);
   }
 }
 

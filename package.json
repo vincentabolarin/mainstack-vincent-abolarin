@@ -4,7 +4,7 @@
   "description": "Mainstack - Vincent Abolarin",
   "main": "index.ts",
   "scripts": {
-    "test": "jest",
+    "test": "NODE_ENV=test jest",
     "dev": "nodemon --exec ts-node src/index.ts",
     "build": "tsc && tsc-alias",
     "start": "node dist/index.js"
