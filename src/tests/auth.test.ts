@@ -39,7 +39,7 @@ describe("Authentication API", () => {
 
     switch (res.statusCode) {
       case 200:
-        expect(res.body.data).toBeDefined();
+        expect(res.body.data.token).toBeDefined();
         expect(res.body.message).toBe("Successfully logged in");
         break;
 
