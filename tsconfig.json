@@ -1,19 +1,20 @@
 {
   "compilerOptions": {
-    "target": "ESNext", // Target modern JavaScript
-    "module": "ESNext", // Use ECMAScript module syntax (import/export)
-    "moduleResolution": "node", // Resolve modules like Node.js does
-    "esModuleInterop": true, // Enable importing CommonJS modules with default imports
-    "skipLibCheck": true, // Skip checking declaration files
-    "forceConsistentCasingInFileNames": true, // Ensure consistent casing in file names
-    "outDir": "./dist", // Output directory for compiled JavaScript files
-    "rootDir": "./src", // Root directory for source TypeScript files
-    "resolveJsonModule": true // Allow importing JSON files
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "resolveJsonModule": true,
   },
   "include": [
-    "src/**/*.ts" // Include all TypeScript files in the src folder
+    "src/**/*.ts"
   ],
   "exclude": [
-    "node_modules" // Exclude the node_modules folder
-  ]
+    "node_modules",
+    "dist"
+  ],
 }

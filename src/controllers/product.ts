@@ -1,6 +1,12 @@
 import { Request, Response } from "express";
 
-import { createProductService, deleteProductService, getAllProductsService, getProductByIdService, updateProductService } from "../services/product.js";
+import {
+  createProductService,
+  deleteProductService,
+  getAllProductsService,
+  getProductByIdService,
+  updateProductService,
+} from "../services/product.js";
 
 // Create a product
 const createProductController = async (req: Request, res: Response) => {

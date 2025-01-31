@@ -40,12 +40,17 @@ const registerUserService = async (
 
 const loginService = async (email: string, password: string): Promise<ServiceResponse<LoginResponseData>> => {
   try {
-      const user = await User.findOne({ email });
-      const isPasswordValid = await bcrypt.compare(password, user.password);
-  
-      if (!user || !isPasswordValid) {
-        return new ErrorResponse("Invalid credentials");
-      }
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return new ErrorResponse("Invalid credentials");
+    }
+    
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    
+    if (!isPasswordValid) {
+      return new ErrorResponse("Invalid credentials");
+    }
       
     const expiresIn = 60 * 60; // 1 hour
   
