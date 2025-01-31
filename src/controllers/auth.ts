@@ -22,7 +22,7 @@ const registerController = async (req: Request, res: Response) => {
         break;
     }
   } else {
-    res.status(201).json(result);
+    res.status(200).json(result);
   }
 };
 
@@ -42,7 +42,7 @@ const loginController = async (req: Request, res: Response) => {
         break;
     }
   } else {
-    res.status(201).json(result);
+    res.status(200).json(result);
   }
 };
 

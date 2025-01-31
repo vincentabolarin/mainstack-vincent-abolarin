@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth.js';
 import productRoutes from './routes/product.js';
-import { authenticate } from './middlewares/auth.js';
+import { authenticate } from "./middlewares/auth.js";
 
 dotenv.config();
 
@@ -34,3 +34,5 @@ mongoose
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+export default app;
