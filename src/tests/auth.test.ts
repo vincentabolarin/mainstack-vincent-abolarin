@@ -1,4 +1,5 @@
 const request = require("supertest");
+const mongoose = require("mongoose");
 import { startServer } from "../index.js";
 
 let server;
@@ -9,6 +10,14 @@ beforeAll(async () => {
 
 afterAll(async () => {
   server.close();
+});
+
+afterAll(async () => {
+  await mongoose.connection.close();
+});
+
+afterAll(async () => {
+  jest.clearAllMocks();
 });
 
 describe("Authentication API", () => {
