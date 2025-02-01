@@ -1,4 +1,5 @@
 const request = require("supertest");
+const mongoose = require("mongoose");
 import { startServer } from "../index.js";
 
 let server;
@@ -9,6 +10,14 @@ beforeAll(async () => {
 
 afterAll(async () => {
   server.close();
+});
+
+afterAll(async () => {
+  await mongoose.connection.close();
+});
+
+afterAll(async () => {
+  jest.clearAllMocks();
 });
 
 jest.mock("../middlewares/auth.js", () => ({
@@ -64,6 +73,7 @@ describe("Products API", () => {
       name: "Updated Product",
       description: "Updated description",
       price: 149.99,
+      category: "Electronics",
     });
 
     expect([200, 404]).toContain(res.statusCode);
