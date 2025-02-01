@@ -7,11 +7,12 @@ import {
   getProductByIdController,
   updateProductController,
 } from "../controllers/product.js";
+import { validateProductCreationOrUpdate } from "../middlewares/productInputValidation.js";
 
 const router = express.Router();
 
 // Create a product
-router.post("/", authenticate, createProductController);
+router.post("/", authenticate, validateProductCreationOrUpdate, createProductController);
 
 // Get all products
 router.get("/", authenticate, getAllProductsController);
@@ -20,7 +21,7 @@ router.get("/", authenticate, getAllProductsController);
 router.get('/:id', authenticate, getProductByIdController);
 
 // Update a product
-router.put('/:id', authenticate, updateProductController);
+router.put('/:id', authenticate, validateProductCreationOrUpdate, updateProductController);
 
 // Delete a product
 router.delete('/:id', authenticate, deleteProductController);

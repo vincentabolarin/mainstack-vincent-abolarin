@@ -4,7 +4,7 @@
   "description": "Mainstack - Vincent Abolarin",
   "main": "index.ts",
   "scripts": {
-    "test": "cross-env NODE_ENV=test jest",
+    "test": "cross-env NODE_ENV=test jest --detectOpenHandles",
     "dev": "nodemon --exec ts-node src/index.ts",
     "build": "tsc && tsc-alias",
     "start": "tsc && tsc-alias && node dist/index.js"
