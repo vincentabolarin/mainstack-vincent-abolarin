@@ -15,14 +15,39 @@ const createProductService = async (name: string, description: string, price: nu
 }
 
 // Get all products
-const getAllProductsService = async (): Promise<ServiceResponse<any>> => {
+const getAllProductsService = async (page: number, limit: number): Promise<ServiceResponse<any>> => {
   try {
-    const products = await Product.find();
+    const skip = (page - 1) * limit;
+
+    // Fetch products with pagination
+    const products = await Product.find().skip(skip).limit(limit);
+    const productCount = await Product.countDocuments();
+    const totalPages = Math.ceil(productCount / limit)
+
+    const baseUrl = process.env.BASE_URL || "http://localhost:8000";
+
+    
+    const previousPage =
+      page > 1 ? `${baseUrl}/products?page=${page - 1}&limit=${limit}` : null;
+    
+    const nextPage =
+      page < totalPages
+        ? `${baseUrl}/products?page=${page + 1}&limit=${limit}`
+        : null;
 
     const data = {
-      count: products.length,
+      page,
+      limit,
+      totalPages,
+      previous: previousPage,
+      next: nextPage,
+      productCount,
       products,
     };
+
+    if (page > totalPages && productCount > 0) {
+      return new ErrorResponse("Page exceeds the available data");
+    }
 
     if (products.length === 0) {
       return new SuccessResponse("No product found", data);

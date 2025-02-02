@@ -23,10 +23,21 @@ const createProductController = async (req: Request, res: Response) => {
 
 // Get all products
 const getAllProductsController = async (req: Request, res: Response) => {
-  const result = await getAllProductsService();
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 10;
+
+  const result = await getAllProductsService(page, limit);
 
   if (!result.success) {
-    res.status(500).json(result);
+    switch (result.message) {
+      case "Page exceeds the available data":
+        res.status(404).json(result);
+        break;
+
+      default:
+        res.status(500).json(result);
+        break;
+    }
   } else {
     res.status(200).json(result);
   }
